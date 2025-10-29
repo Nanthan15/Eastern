@@ -2,6 +2,12 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import pool from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import companyRoutes from "./routes/companyRoutes.js";
+import employeeRoutes from "./routes/employeeRoutes.js";
+import storehouseRoutes from "./routes/storehouseRoutes.js";
+import departmentRoutes from "./routes/departmentRoutes.js";
+
 
 dotenv.config();
 const app = express();
@@ -11,9 +17,14 @@ app.use(cors());
 app.use(express.json());
 
 // Basic route
-app.get("/", (req, res) => {
-  res.send("Eastern Travel Needz API is running 🚀");
-});
+
+app.get("/", (req, res) => res.send("Eastern Travel Needz API is running 🚀"));
+app.use("/auth", authRoutes);
+
+app.use("/department", departmentRoutes);
+app.use("/company", companyRoutes);
+app.use("/employee", employeeRoutes);
+app.use("/storehouse", storehouseRoutes);
 
 // Import routes
 // import userRoutes from "./routes/userRoutes.js";

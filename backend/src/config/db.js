@@ -7,7 +7,8 @@ const { Pool } = pkg;
 // Create a pool with Neon pooling endpoint
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL, // Use the Pooling URL from Neon
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
+  
 });
 
 // Listen for unexpected errors on idle clients

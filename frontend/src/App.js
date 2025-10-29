@@ -1,30 +1,31 @@
-import { useEffect, useState } from 'react';
-import API from './services/api';
-import { Container, Navbar, Button } from 'react-bootstrap';
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import EmployeePage from "./pages/EmployeePage";
+import AddSubsidiary from "./pages/AddSubsidiary";
+import AddStorehouse from "./pages/AddStorehouse";
+import DepartmentPage from "./pages/DepartmentPage";
 function App() {
-  const [msg, setMsg] = useState('');
-
-  useEffect(() => {
-    API.get('/')
-      .then(res => setMsg(res.data))
-      .catch(err => console.error(err));
-  }, []);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
 
   return (
-    <>
-      <Navbar bg="primary" variant="dark">
-        <Container>
-          <Navbar.Brand>Eastern Travel Needz</Navbar.Brand>
-          <Button variant="light">Logout</Button>
-        </Container>
-      </Navbar>
-
-      <Container className="mt-4">
-        <h2 className="text-primary">Frontend Connected ✅</h2>
-        <p>{msg}</p>
-      </Container>
-    </>
+    <Router>
+      <Navbar onLogout={handleLogout} />
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/employees" element={<EmployeePage />} />
+        <Route path="/subsidiaries" element={<AddSubsidiary />} />
+        <Route path="/storehouses" element={<AddStorehouse />} />
+        <Route path="/departments" element={<DepartmentPage />} />
+      </Routes>
+    </Router>
   );
 }
 
