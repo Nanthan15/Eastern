@@ -7,6 +7,12 @@ import EmployeePage from "./pages/EmployeePage";
 import AddSubsidiary from "./pages/AddSubsidiary";
 import AddStorehouse from "./pages/AddStorehouse";
 import DepartmentPage from "./pages/DepartmentPage";
+import BookingPage from "./pages/BookingPage";
+import ManagerApprovalPage from "./pages/ManagerApprovalPage";
+import CompanyWalletPage from "./pages/CompanyWalletPage";
+import SubsidiaryWalletPage from "./pages/SubsidiaryWalletPage";
+import ProfilePage from "./pages/ProfilePage";
+
 function App() {
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -17,13 +23,20 @@ function App() {
     <Router>
       <Navbar onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Dashboard />} />        
         <Route path="/register" element={<Register />} />
         <Route path="/employees" element={<EmployeePage />} />
         <Route path="/subsidiaries" element={<AddSubsidiary />} />
         <Route path="/storehouses" element={<AddStorehouse />} />
         <Route path="/departments" element={<DepartmentPage />} />
+        <Route path="/bookings" element={<BookingPage />} />
+        <Route path="/manager-approvals" element={<ManagerApprovalPage />} />
+        <Route path="/wallet/company" element={<CompanyWalletPage />} />
+        <Route path="/wallet/subsidiary" element={<SubsidiaryWalletPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
+      <Routes>
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

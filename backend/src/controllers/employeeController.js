@@ -20,3 +20,29 @@ export const listEmployees = async (req,res)=>{
     res.status(500).json({ message:"Error fetching employees" });
   }
 };
+
+
+export const listEmployeesBySubsidiary = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query(
+      `SELECT 
+         u.id,
+         u.name,
+         u.email,
+         u.role_id,
+         u.manager_id,
+         COALESCE(w.balance, 0) AS balance
+       FROM users u
+       LEFT JOIN employee_wallets w ON u.id = w.employee_id
+       WHERE u.subsidiary_id = $1 AND u.role_id = 4
+       ORDER BY u.id DESC`,
+      [id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching employees by subsidiary:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+

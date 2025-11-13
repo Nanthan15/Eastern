@@ -4,39 +4,14 @@ import API from "../services/api";
 
 function AddSubsidiary() {
   const [subsidiaries, setSubsidiaries] = useState([]);
-  const [companies, setCompanies] = useState([]);
-  const [form, setForm] = useState({ name: "", parent_company_id: "" });
+  const [form, setForm] = useState({ name: "" });
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const fetchCompanies = async () => {
-      try {
-        const { data } = await API.get("/company/companies");
-        setCompanies(data);
-      } catch (err) {
-        console.error("Error fetching companies", err);
-      }
-    };
-    fetchCompanies();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post("/company/create-subsidiary", form);
-      setMessage("Subsidiary created successfully!");
-      setForm({ name: "", parent_company_id: "" });
-      fetchSubsidiaries();
-    } catch (err) {
-      setMessage("Error creating subsidiary");
-    }
-  };
-
+  // Fetch subsidiaries
   const fetchSubsidiaries = async () => {
     try {
-      const { data } = await API.get("/company/companies");
-      const onlySubs = data.filter(c => c.parent_company_id !== null);
-      setSubsidiaries(onlySubs);
+      const { data } = await API.get("/company/subsidiaries");
+      setSubsidiaries(data);
     } catch (err) {
       console.error("Error fetching subsidiaries", err);
     }
@@ -46,41 +21,36 @@ function AddSubsidiary() {
     fetchSubsidiaries();
   }, []);
 
+  // Create subsidiary
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await API.post("/company/create-subsidiary", { name: form.name });
+      setMessage("✅ Subsidiary created successfully!");
+      setForm({ name: "" });
+      fetchSubsidiaries();
+    } catch (err) {
+      console.error("Error creating subsidiary", err);
+      setMessage("❌ Error creating subsidiary");
+    }
+  };
+
   return (
     <Container className="mt-4">
-      <h4 className="text-primary mb-3">Create Subsidiary Company</h4>
-
+      <h4 className="text-primary mb-3">Create Subsidiary</h4>
       {message && <Alert variant="info">{message}</Alert>}
 
       <Form onSubmit={handleSubmit} className="mb-3">
-        <Form.Group className="mb-2">
+        <Form.Group className="mb-3">
           <Form.Label>Subsidiary Name</Form.Label>
           <Form.Control
+            type="text"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             placeholder="Enter subsidiary name"
             required
           />
         </Form.Group>
-
-        <Form.Group className="mb-3">
-          <Form.Label>Parent Company</Form.Label>
-          <Form.Select
-            value={form.parent_company_id}
-            onChange={(e) => setForm({ ...form, parent_company_id: e.target.value })}
-            required
-          >
-            <option value="">Select Parent Company</option>
-            {companies
-              .filter((c) => c.parent_company_id === null)
-              .map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.name}
-                </option>
-              ))}
-          </Form.Select>
-        </Form.Group>
-
         <Button type="submit">Create</Button>
       </Form>
 
@@ -90,7 +60,6 @@ function AddSubsidiary() {
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Parent Company ID</th>
           </tr>
         </thead>
         <tbody>
@@ -98,7 +67,6 @@ function AddSubsidiary() {
             <tr key={s.id}>
               <td>{s.id}</td>
               <td>{s.name}</td>
-              <td>{s.parent_company_id}</td>
             </tr>
           ))}
         </tbody>

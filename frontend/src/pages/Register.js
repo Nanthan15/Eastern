@@ -8,25 +8,24 @@ function Register() {
     email: "",
     password: "",
     role_id: 4, // Default: Employee
-    company_id: "",
+    company_id: 1,
+    subsidiary_id: "", // new field
     manager_id: null,
   });
-  const [companies, setCompanies] = useState([]);
+  const [subsidiaries, setSubsidiaries] = useState([]);
   const [message, setMessage] = useState("");
 
-  // 🔹 Fetch parent companies on load
+  // 🔹 Fetch subsidiaries
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const fetchSubsidiaries = async () => {
       try {
-        const { data } = await API.get("/company/companies");
-        // Filter only parent companies (no parent_company_id)
-        const parents = data.filter((c) => c.parent_company_id === null);
-        setCompanies(parents);
+        const { data } = await API.get("/company/subsidiaries");
+        setSubsidiaries(data);
       } catch (err) {
-        console.error("Error fetching companies:", err);
+        console.error("Error fetching subsidiaries:", err);
       }
     };
-    fetchCompanies();
+    fetchSubsidiaries();
   }, []);
 
   // 🔹 Handle input changes
@@ -45,89 +44,64 @@ function Register() {
         email: "",
         password: "",
         role_id: 4,
-        company_id: "",
+        company_id: 1,
+        subsidiary_id: "",
         manager_id: null,
       });
     } catch (err) {
+      console.error("Registration error:", err);
       setMessage("❌ Registration failed");
     }
   };
 
   return (
-    <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ height: "80vh" }}
-    >
+    <Container className="d-flex justify-content-center align-items-center" style={{ height: "80vh" }}>
       <Card className="p-4 shadow" style={{ width: "450px" }}>
         <h3 className="text-center text-primary mb-3">Register User</h3>
         {message && <Alert variant="info">{message}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-2">
             <Form.Label>Name</Form.Label>
-            <Form.Control
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+            <Form.Control name="name" value={formData.name} onChange={handleChange} required />
           </Form.Group>
 
           <Form.Group className="mb-2">
             <Form.Label>Email</Form.Label>
-            <Form.Control
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+            <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
           </Form.Group>
 
           <Form.Group className="mb-2">
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <Form.Control name="password" type="password" value={formData.password} onChange={handleChange} required />
           </Form.Group>
 
-          {/* 🔹 Company Dropdown */}
           <Form.Group className="mb-2">
-            <Form.Label>Select Company</Form.Label>
-            <Form.Select
-              name="company_id"
-              value={formData.company_id}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select Parent Company</option>
-              {companies.map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.name}
+            <Form.Label>Role</Form.Label>
+            <Form.Select name="role_id" value={formData.role_id} onChange={handleChange}>
+              <option value="1">Super Admin</option>
+              <option value="2">Company Admin</option>
+              <option value="3">Manager</option>
+              <option value="4">Employee</option>
+              <option value="6">HR</option>
+              <option value="7">SubsidiaryAdmin</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-2">
+            <Form.Label>Select Subsidiary</Form.Label>
+            <Form.Select name="subsidiary_id" value={formData.subsidiary_id} onChange={handleChange} required>
+              <option value="">Select Subsidiary</option>
+              {subsidiaries.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
                 </option>
               ))}
             </Form.Select>
           </Form.Group>
 
           <Form.Group className="mb-2">
-            <Form.Label>Role ID (1=SuperAdmin, 2=CompanyAdmin, 3=SubsidiaryAdmin, 4=Employee)</Form.Label>
-            <Form.Control
-              name="role_id"
-              value={formData.role_id}
-              onChange={handleChange}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-2">
-            <Form.Label>Manager ID</Form.Label>
-            <Form.Control
-              name="manager_id"
-              value={formData.manager_id || ""}
-              onChange={handleChange}
-            />
+            <Form.Label>Manager ID (optional)</Form.Label>
+            <Form.Control name="manager_id" value={formData.manager_id || ""} onChange={handleChange} />
           </Form.Group>
 
           <Button type="submit" className="w-100 btn btn-success mt-2">

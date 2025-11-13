@@ -7,6 +7,8 @@ import companyRoutes from "./routes/companyRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import storehouseRoutes from "./routes/storehouseRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
+import bookingRoutes from "./routes/bookingRoutes.js";
+import walletRoutes from "./routes/walletRoutes.js";
 
 
 dotenv.config();
@@ -25,6 +27,9 @@ app.use("/department", departmentRoutes);
 app.use("/company", companyRoutes);
 app.use("/employee", employeeRoutes);
 app.use("/storehouse", storehouseRoutes);
+app.use("/booking", bookingRoutes);
+app.use("/wallet", walletRoutes);
+
 
 // Import routes
 // import userRoutes from "./routes/userRoutes.js";

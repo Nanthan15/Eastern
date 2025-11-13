@@ -12,6 +12,7 @@ function Login() {
     try {
       const { data } = await API.post("/auth/login", { email, password });
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       setMessage("✅ Login successful!");
       setTimeout(() => (window.location.href = "/dashboard"), 1000);
     } catch (err) {
