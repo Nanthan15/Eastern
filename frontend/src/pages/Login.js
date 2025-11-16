@@ -94,9 +94,9 @@ function Login() {
           height: 100%;
         }
 
-        /* Enhanced Login Form Styling */
+        /* Enhanced Login Form Styling - New Color Palette */
         .login-container {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #0D47A1 0%, #00BCD4 100%);
           min-height: 100vh;
           display: flex;
           align-items: center;
@@ -135,11 +135,11 @@ function Login() {
         .login-card {
           background: white;
           border-radius: 20px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 20px 60px rgba(13, 71, 161, 0.15);
           padding: 50px !important;
           width: 100%;
           animation: slideUp 0.6s ease-out;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(13, 71, 161, 0.05);
         }
         @keyframes slideUp {
           from {
@@ -158,7 +158,7 @@ function Login() {
         .login-header h3 {
           font-size: 32px;
           font-weight: 700;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #0D47A1 0%, #00BCD4 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -187,17 +187,17 @@ function Login() {
           letter-spacing: 0.5px;
         }
         .form-control-enhanced {
-          border: 2px solid #e0e0e0 !important;
+          border: 2px solid #E3F2FD !important;
           border-radius: 10px;
           padding: 12px 16px !important;
           font-size: 15px;
           transition: all 0.3s ease;
-          background: #f8f9fa;
+          background: #F8FBFF;
         }
         .form-control-enhanced:focus {
-          border-color: #667eea !important;
+          border-color: #00BCD4 !important;
           background: white !important;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+          box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1) !important;
           outline: none;
         }
         .form-control-enhanced:disabled {
@@ -210,18 +210,18 @@ function Login() {
           font-size: 16px;
           font-weight: 600;
           border-radius: 10px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #0D47A1 0%, #00BCD4 100%);
           border: none;
           color: white;
           margin-top: 10px;
           transition: all 0.3s ease;
           cursor: pointer;
           letter-spacing: 0.5px;
-          box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 10px 25px rgba(13, 71, 161, 0.3);
         }
         .login-btn:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+          box-shadow: 0 15px 35px rgba(0, 188, 212, 0.4);
         }
         .login-btn:active:not(:disabled) {
           transform: translateY(0);
@@ -249,9 +249,9 @@ function Login() {
           }
         }
         .alert-info {
-          background: rgba(102, 126, 234, 0.1);
-          color: #667eea;
-          border-left: 4px solid #667eea;
+          background: rgba(0, 188, 212, 0.1);
+          color: #0D47A1;
+          border-left: 4px solid #00BCD4;
         }
         .lottie-decoration {
           width: 480px; /* increased size */

@@ -8,6 +8,7 @@ import AddSubsidiary from "./pages/AddSubsidiary";
 import AddStorehouse from "./pages/AddStorehouse";
 import DepartmentPage from "./pages/DepartmentPage";
 import BookingPage from "./pages/BookingPage";
+import StatusPage from "./pages/StatusPage"; // added import
 import ManagerApprovalPage from "./pages/ManagerApprovalPage";
 import CompanyWalletPage from "./pages/CompanyWalletPage";
 import SubsidiaryWalletPage from "./pages/SubsidiaryWalletPage";
@@ -34,6 +35,7 @@ function App() {
           <Route path="/storehouses" element={<AddStorehouse />} />
           <Route path="/departments" element={<DepartmentPage />} />
           <Route path="/bookings" element={<BookingPage />} />
+          <Route path="/status" element={<StatusPage />} /> {/* added route */}
           <Route path="/manager-approvals" element={<ManagerApprovalPage />} />
           <Route path="/wallet/company" element={<CompanyWalletPage />} />
           <Route path="/wallet/subsidiary" element={<SubsidiaryWalletPage />} />
