@@ -26,19 +26,6 @@ function BookingPage() {
   const [walletLoading, setWalletLoading] = useState(true);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
-  // load the dotlottie web component script once
-  useEffect(() => {
-    const src =
-      "https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js";
-    if (!document.querySelector(`script[src="${src}"]`)) {
-      const s = document.createElement("script");
-      s.src = src;
-      s.type = "module";
-      s.async = true;
-      document.head.appendChild(s);
-    }
-  }, []);
-
   // fetch wallet
   const fetchWallet = async () => {
     try {

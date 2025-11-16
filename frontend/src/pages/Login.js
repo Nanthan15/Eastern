@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Form, Button, Container, Card, Alert } from "react-bootstrap";
+import { Form, Button, Card, Alert } from "react-bootstrap";
 import API from "../services/api";
 
 function Login() {
@@ -8,18 +8,6 @@ function Login() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const lottieRef = useRef(null);
-
-  // load the dotlottie web component script once
-  useEffect(() => {
-    const src = "https://unpkg.com/@lottiefiles/dotlottie-wc@0.7.1/dist/dotlottie-wc.js";
-    if (!document.querySelector(`script[src="${src}"]`)) {
-      const s = document.createElement("script");
-      s.src = src;
-      s.type = "module";
-      s.async = true;
-      document.head.appendChild(s);
-    }
-  }, []);
 
   // try to reduce playback speed when loader is shown (safe guards)
   useEffect(() => {
