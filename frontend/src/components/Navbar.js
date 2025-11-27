@@ -29,9 +29,10 @@ function AppNavbar() {
         return (
           <>
             <Nav.Link as={Link} to="/wallet/company">Company Wallet</Nav.Link>
-            <Nav.Link as={Link} to="/company/subsidiaries">Subsidiaries</Nav.Link>
+            <Nav.Link as={Link} to="/subsidiaries">Subsidiaries</Nav.Link>
             <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
           </>
+
         );
 
       case 2: // Company Admin

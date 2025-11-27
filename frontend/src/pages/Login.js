@@ -7,6 +7,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [animate, setAnimate] = useState(false); // NEW: trigger entrance animations
   const lottieRef = useRef(null);
 
   // try to reduce playback speed when loader is shown (safe guards)
@@ -27,6 +28,12 @@ function Login() {
     }, 200);
     return () => clearTimeout(t);
   }, [loading]);
+
+  useEffect(() => {
+    // small delay to ensure CSS transitions run after mount
+    const t = setTimeout(() => setAnimate(true), 40);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,6 +109,14 @@ function Login() {
         .login-left {
           flex: 1;
           min-width: 400px;
+          transform: translateX(60px);
+          opacity: 0;
+          transition: transform 820ms cubic-bezier(.16,.84,.44,1), opacity 420ms ease;
+          will-change: transform, opacity;
+        }
+        .login-left.enter {
+          transform: translateX(0);
+          opacity: 1;
         }
         .login-right {
           flex: 1;
@@ -109,6 +124,14 @@ function Login() {
           align-items: center;
           justify-content: center;
           animation: fadeIn 0.8s ease-out 0.3s both;
+          opacity: 0;
+          transform: translateY(8px) scale(0.99);
+          transition: opacity 900ms ease 360ms, transform 700ms cubic-bezier(.16,.84,.44,1) 360ms;
+          will-change: opacity, transform;
+        }
+        .login-right.enter {
+          opacity: 1;
+          transform: translateY(0) scale(1);
         }
         @keyframes fadeIn {
           from {
@@ -124,7 +147,7 @@ function Login() {
           background: white;
           border-radius: 20px;
           box-shadow: 0 20px 60px rgba(13, 71, 161, 0.15);
-          padding: 50px !important;
+          padding: 35px !important;
           width: 100%;
           animation: slideUp 0.6s ease-out;
           border: 1px solid rgba(13, 71, 161, 0.05);
@@ -141,44 +164,44 @@ function Login() {
         }
         .login-header {
           text-align: center;
-          margin-bottom: 40px;
+          margin-bottom: 28px;
         }
         .login-header h3 {
-          font-size: 32px;
+          font-size: 26px;
           font-weight: 700;
           background: linear-gradient(135deg, #0D47A1 0%, #00BCD4 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
           margin: 0;
-          margin-top: 15px;
+          margin-top: 10px;
         }
         .login-header-icon {
-          font-size: 48px;
-          margin-bottom: 10px;
+          font-size: 40px;
+          margin-bottom: 8px;
         }
         .login-header p {
           color: #999;
-          font-size: 14px;
-          margin-top: 8px;
+          font-size: 12px;
+          margin-top: 5px;
         }
         .form-group-enhanced {
-          margin-bottom: 20px;
+          margin-bottom: 16px;
           position: relative;
         }
         .form-group-enhanced label {
           font-weight: 600;
           color: #333;
-          margin-bottom: 10px;
+          margin-bottom: 7px;
           display: block;
-          font-size: 14px;
+          font-size: 13px;
           letter-spacing: 0.5px;
         }
         .form-control-enhanced {
           border: 2px solid #E3F2FD !important;
           border-radius: 10px;
-          padding: 12px 16px !important;
-          font-size: 15px;
+          padding: 10px 12px !important;
+          font-size: 14px;
           transition: all 0.3s ease;
           background: #F8FBFF;
         }
@@ -194,14 +217,14 @@ function Login() {
         }
         .login-btn {
           width: 100%;
-          padding: 14px !important;
-          font-size: 16px;
+          padding: 11px !important;
+          font-size: 15px;
           font-weight: 600;
           border-radius: 10px;
           background: linear-gradient(135deg, #0D47A1 0%, #00BCD4 100%);
           border: none;
           color: white;
-          margin-top: 10px;
+          margin-top: 8px;
           transition: all 0.3s ease;
           cursor: pointer;
           letter-spacing: 0.5px;
@@ -242,20 +265,27 @@ function Login() {
           border-left: 4px solid #00BCD4;
         }
         .lottie-decoration {
-          width: 480px; /* increased size */
-          height: 480px;
+          width: 380px;
+          height: 380px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: transparent; /* transparent background */
+          background: transparent;
           border-radius: 20px;
-          backdrop-filter: none; /* remove blur */
-          border: none; /* remove border */
+          backdrop-filter: none;
+          border: none;
         }
         .lottie-decoration dotlottie-wc {
           width: 100%;
           height: 100%;
           background: transparent !important; /* ensure transparent */
+        }
+        /* Slight image smoothing and preserve clarity while scaling */
+        .lottie-decoration dotlottie-wc {
+          width: 100%;
+          height: 100%;
+          display: block;
+          image-rendering: -webkit-optimize-contrast;
         }
         @media (max-width: 1024px) {
           .login-wrapper {
@@ -266,8 +296,8 @@ function Login() {
             min-width: auto;
           }
           .lottie-decoration {
-            width: 340px;
-            height: 340px;
+            width: 300px;
+            height: 300px;
           }
         }
       `}</style>
@@ -275,7 +305,7 @@ function Login() {
       <div className="login-container" style={{ padding: 0, margin: 0 }}>
         <div className="login-wrapper">
           {/* Left Side - Login Form */}
-          <div className="login-left">
+          <div className={`login-left ${animate ? "enter" : ""}`}>
             <Card className="login-card">
               <div className="login-header">
                 <div className="login-header-icon">🔐</div>
@@ -320,7 +350,7 @@ function Login() {
           </div>
 
           {/* Right Side - Lottie Animation */}
-          <div className="login-right">
+          <div className={`login-right ${animate ? "enter" : ""}`}>
             <div className="lottie-decoration">
               <dotlottie-wc
                 src="https://lottie.host/a40b3055-57a4-476d-bb23-2ed437ddcb92/PAaF7T8kbM.lottie"

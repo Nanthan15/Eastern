@@ -72,6 +72,13 @@ function StatusPage() {
           text-align: center;
           margin-bottom: 40px;
         }
+        .status-header-icon {
+          font-size: 46px; /* larger icon size */
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 10px;
+          line-height: 1;
+        }
         .status-header h2 {
           background: linear-gradient(135deg, #0D47A1 0%, #00BCD4 100%);
           -webkit-background-clip: text;
@@ -130,7 +137,7 @@ function StatusPage() {
         }
         .travel-type {
           font-weight: 600;
-          font-size: 15px;
+          font-size: 18px; /* slightly larger so emoji in table are clearer */
         }
         .city-route {
           color: #666;

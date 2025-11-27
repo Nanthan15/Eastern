@@ -167,6 +167,13 @@ function BookingPage() {
           text-align: center;
           margin-bottom: 40px;
         }
+        .booking-header-icon {
+          font-size: 46px; /* make header emoji larger */
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 10px;
+          line-height: 1;
+        }
         .booking-header h2 {
           background: linear-gradient(135deg, #0D47A1 0%, #00BCD4 100%);
           -webkit-background-clip: text;
@@ -175,6 +182,10 @@ function BookingPage() {
           font-weight: 700;
           font-size: 36px;
           margin-bottom: 10px;
+        }
+        .travel-type {
+          font-weight: 600;
+          font-size: 18px; /* slightly larger for emoji clarity */
         }
         .booking-header p {
           color: #666;
@@ -385,7 +396,7 @@ function BookingPage() {
       <div className="booking-container">
         <Container>
           <div className="booking-header">
-            <span>✈️</span>
+            <span className="booking-header-icon">✈️</span>
             <h2>Book Your Travel</h2>
             <p>Plan your journey with ease</p>
           </div>

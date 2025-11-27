@@ -48,7 +48,7 @@ export const canManageDepartments = (req, res, next) => {
 };
 
 export const canManageEmployees = (req, res, next) => {
-  if ([1, 2, 3, 4].includes(req.user.role_id)) return next(); // CompanyAdmin, SubsidiaryAdmin, HR
+  if ([1, 2, 3, 4,7].includes(req.user.role_id)) return next(); // CompanyAdmin, SubsidiaryAdmin, HR
   return res.status(403).json({ message: "Access denied: employee management only" });
 };
 

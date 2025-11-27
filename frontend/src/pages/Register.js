@@ -55,61 +55,215 @@ function Register() {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ height: "80vh" }}>
-      <Card className="p-4 shadow" style={{ width: "450px" }}>
-        <h3 className="text-center text-primary mb-3">Register User</h3>
-        {message && <Alert variant="info">{message}</Alert>}
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-2">
-            <Form.Label>Name</Form.Label>
-            <Form.Control name="name" value={formData.name} onChange={handleChange} required />
-          </Form.Group>
+    <>
+      <style>{`
+        /* Card layout */
+        .register-wrap {
+          min-height: 80vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 32px 12px;
+          background: linear-gradient(180deg, rgba(13,71,161,0.04), rgba(0,188,212,0.02));
+        }
+        .register-card {
+          width: 100%;
+          max-width: 560px;
+          border-radius: 14px;
+          overflow: hidden;
+          border: none;
+          box-shadow: 0 18px 50px rgba(13,71,161,0.12);
+        }
+        .register-card .card-header {
+          background: linear-gradient(90deg, #0D47A1 0%, #00BCD4 100%);
+          color: white;
+          padding: 20px 24px;
+        }
+        .register-card .card-header h3 {
+          margin: 0;
+          font-size: 20px;
+          font-weight: 700;
+          letter-spacing: 0.3px;
+        }
+        .register-card .card-body {
+          background: #ffffff;
+          padding: 22px;
+        }
 
-          <Form.Group className="mb-2">
-            <Form.Label>Email</Form.Label>
-            <Form.Control name="email" type="email" value={formData.email} onChange={handleChange} required />
-          </Form.Group>
+        /* Labels & inputs */
+        .form-label-custom {
+          font-weight: 700;
+          color: #0D47A1;
+          font-size: 13px;
+          margin-bottom: 6px;
+          display: block;
+          text-transform: uppercase;
+          letter-spacing: 0.6px;
+        }
+        .form-control-custom {
+          border: 1.5px solid rgba(13,71,161,0.08) !important;
+          border-radius: 10px;
+          padding: 10px 12px !important;
+          font-size: 14px;
+          background: #FAFDFF;
+          transition: box-shadow .18s ease, border-color .18s ease;
+        }
+        .form-control-custom:focus {
+          border-color: #00BCD4 !important;
+          box-shadow: 0 6px 20px rgba(0,188,212,0.08) !important;
+          background: #fff !important;
+          outline: none;
+        }
+        .form-select-custom {
+          border: 1.5px solid rgba(13,71,161,0.08) !important;
+          border-radius: 10px;
+          padding: 10px 12px !important;
+          font-size: 14px;
+          background: #FAFDFF !important;
+        }
 
-          <Form.Group className="mb-2">
-            <Form.Label>Password</Form.Label>
-            <Form.Control name="password" type="password" value={formData.password} onChange={handleChange} required />
-          </Form.Group>
+        /* Info text */
+        .register-note {
+          font-size: 13px;
+          color: #566;
+          margin-bottom: 12px;
+        }
 
-          <Form.Group className="mb-2">
-            <Form.Label>Role</Form.Label>
-            <Form.Select name="role_id" value={formData.role_id} onChange={handleChange}>
-              <option value="1">Super Admin</option>
-              <option value="2">Company Admin</option>
-              <option value="3">Manager</option>
-              <option value="4">Employee</option>
-              <option value="6">HR</option>
-              <option value="7">SubsidiaryAdmin</option>
-            </Form.Select>
-          </Form.Group>
+        /* Action */
+        .btn-register {
+          width: 100%;
+          background: linear-gradient(90deg, #0D47A1 0%, #00BCD4 100%);
+          border: none;
+          color: white;
+          padding: 10px 14px;
+          border-radius: 10px;
+          font-weight: 700;
+          box-shadow: 0 10px 30px rgba(13,71,161,0.14);
+        }
+        .btn-register:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
 
-          <Form.Group className="mb-2">
-            <Form.Label>Select Subsidiary</Form.Label>
-            <Form.Select name="subsidiary_id" value={formData.subsidiary_id} onChange={handleChange} required>
-              <option value="">Select Subsidiary</option>
-              {subsidiaries.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+        /* Message */
+        .register-alert {
+          border-left: 4px solid #00BCD4;
+          background: rgba(0,188,212,0.06);
+          color: #0D47A1;
+          border-radius: 8px;
+          padding: 10px 12px;
+          margin-bottom: 12px;
+          font-weight: 600;
+        }
 
-          <Form.Group className="mb-2">
-            <Form.Label>Manager ID (optional)</Form.Label>
-            <Form.Control name="manager_id" value={formData.manager_id || ""} onChange={handleChange} />
-          </Form.Group>
+        @media (max-width: 768px) {
+          .register-card { max-width: 92%; }
+          .register-card .card-header h3 { font-size: 18px; }
+        }
+      `}</style>
 
-          <Button type="submit" className="w-100 btn btn-success mt-2">
-            Register
-          </Button>
-        </Form>
-      </Card>
-    </Container>
+      <div className="register-wrap">
+        <Card className="register-card">
+          <div className="card-header">
+            <h3>Register New User</h3>
+          </div>
+
+          <div className="card-body">
+            {message && <div className="register-alert">{message}</div>}
+
+            <Form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label className="form-label-custom">Full name</label>
+                <Form.Control
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="form-control-custom"
+                  required
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label-custom">Email address</label>
+                <Form.Control
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="form-control-custom"
+                  required
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label-custom">Password</label>
+                <Form.Control
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="form-control-custom"
+                  required
+                />
+              </div>
+
+              <div className="row gx-2">
+                <div className="col-12 col-md-6 mb-3">
+                  <label className="form-label-custom">Role</label>
+                  <Form.Select
+                    name="role_id"
+                    value={formData.role_id}
+                    onChange={handleChange}
+                    className="form-select-custom"
+                  >
+                    <option value="1">Super Admin</option>
+                    <option value="2">Company Admin</option>
+                    <option value="3">Manager</option>
+                    <option value="4">Employee</option>
+                    <option value="6">HR</option>
+                    <option value="7">SubsidiaryAdmin</option>
+                  </Form.Select>
+                </div>
+
+                <div className="col-12 col-md-6 mb-3">
+                  <label className="form-label-custom">Select Subsidiary</label>
+                  <Form.Select
+                    name="subsidiary_id"
+                    value={formData.subsidiary_id}
+                    onChange={handleChange}
+                    className="form-select-custom"
+                    required
+                  >
+                    <option value="">Select Subsidiary</option>
+                    {subsidiaries.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </div>
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label-custom">Manager ID (optional)</label>
+                <Form.Control
+                  name="manager_id"
+                  value={formData.manager_id || ""}
+                  onChange={handleChange}
+                  className="form-control-custom"
+                />
+              </div>
+
+              <div className="d-grid mt-2">
+                <Button type="submit" className="btn-register">
+                  Register
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </Card>
+      </div>
+    </>
   );
 }
 
